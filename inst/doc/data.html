@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+<title>Acceso a datos</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#header {
+text-align: center;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Acceso a datos</h1>
+
+
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(polAr)</a></code></pre></div>
+<div id="explorar-datos-disponibles-con-show_available_elections" class="section level4">
+<h4>Explorar datos disponibles con <code>show_available_elections()</code></h4>
+<p>La función <code>show_available_elections()</code> muestra las elecciones disponibles para descarga. Por defecto el parámetro <code>viewer = FALSE</code> imprime el resultado en consola. Si en cambio escribimos <code>viewer = TRUE</code> los datos se presentan en el <em>Viewer</em> de <code>RStudio</code> y quedan a mano como tabla formateada y con la capacidad de ordenar y filtrar valores.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">  </a>
+<a class="sourceLine" id="cb2-2" title="2"><span class="kw">library</span>(polAr)</a>
+<a class="sourceLine" id="cb2-3" title="3"></a>
+<a class="sourceLine" id="cb2-4" title="4"><span class="kw">show_available_elections</span>()</a>
+<a class="sourceLine" id="cb2-5" title="5"><span class="co">#&gt; # A tibble: 320 x 5</span></a>
+<a class="sourceLine" id="cb2-6" title="6"><span class="co">#&gt;    district category round year  NOMBRE   </span></a>
+<a class="sourceLine" id="cb2-7" title="7"><span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;    </span></a>
+<a class="sourceLine" id="cb2-8" title="8"><span class="co">#&gt;  1 arg      presi    gral  2007  ARGENTINA</span></a>
+<a class="sourceLine" id="cb2-9" title="9"><span class="co">#&gt;  2 arg      presi    gral  2011  ARGENTINA</span></a>
+<a class="sourceLine" id="cb2-10" title="10"><span class="co">#&gt;  3 arg      presi    gral  2015  ARGENTINA</span></a>
+<a class="sourceLine" id="cb2-11" title="11"><span class="co">#&gt;  4 arg      presi    paso  2011  ARGENTINA</span></a>
+<a class="sourceLine" id="cb2-12" title="12"><span class="co">#&gt;  5 arg      presi    paso  2015  ARGENTINA</span></a>
+<a class="sourceLine" id="cb2-13" title="13"><span class="co">#&gt;  6 caba     dip      gral  2007  CABA     </span></a>
+<a class="sourceLine" id="cb2-14" title="14"><span class="co">#&gt;  7 caba     dip      gral  2009  CABA     </span></a>
+<a class="sourceLine" id="cb2-15" title="15"><span class="co">#&gt;  8 caba     dip      gral  2011  CABA     </span></a>
+<a class="sourceLine" id="cb2-16" title="16"><span class="co">#&gt;  9 caba     dip      gral  2013  CABA     </span></a>
+<a class="sourceLine" id="cb2-17" title="17"><span class="co">#&gt; 10 caba     dip      gral  2015  CABA     </span></a>
+<a class="sourceLine" id="cb2-18" title="18"><span class="co">#&gt; # ... with 310 more rows</span></a></code></pre></div>
+</div>
+<div id="obtener-datos-con-get_election_data" class="section level4">
+<h4>Obtener datos con <code>get_election_data()</code></h4>
+<p><code>get_election_data()</code> es la función principal para hacernos de los datos disponibles. Los parámetros obligatorios son los que definen el distrito (<code>district</code>), la categoría (<code>category</code>), el turno (<code>round</code>) y el año electoral (<code>year</code>).</p>
+<p>Por defecto los datos colapsan a nivel provincial, pero podemos definir otros niveles como departamento o circuito electoral con el parámetro <code>levels</code>.</p>
+<p>Abajo el resultado de la consulta solo con los parámetros obligatorios, en el primer caso, y con un nivel de desagregación menor en el segundo:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">  </a>
+<a class="sourceLine" id="cb3-2" title="2"><span class="kw">get_election_data</span>(<span class="dt">district =</span> <span class="st">&quot;caba&quot;</span>, </a>
+<a class="sourceLine" id="cb3-3" title="3">                  <span class="dt">category =</span> <span class="st">&quot;dip&quot;</span>,</a>
+<a class="sourceLine" id="cb3-4" title="4">                  <span class="dt">round =</span> <span class="st">&quot;paso&quot;</span>, </a>
+<a class="sourceLine" id="cb3-5" title="5">                  <span class="dt">year =</span> <span class="dv">2011</span>,</a>
+<a class="sourceLine" id="cb3-6" title="6">                  <span class="dt">long =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb3-7" title="7"><span class="co">#&gt; # A tibble: 1 x 20</span></a>
+<a class="sourceLine" id="cb3-8" title="8"><span class="co">#&gt; # Groups:   codprov [1]</span></a>
+<a class="sourceLine" id="cb3-9" title="9"><span class="co">#&gt;   category round  year codprov name_prov electores blancos nulos `0023`</span></a>
+<a class="sourceLine" id="cb3-10" title="10"><span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;         &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb3-11" title="11"><span class="co">#&gt; 1 dip      paso   2011 01      CABA        2491166   35478 27459 186276</span></a>
+<a class="sourceLine" id="cb3-12" title="12"><span class="co">#&gt; # ... with 11 more variables: `0036` &lt;dbl&gt;, `0179` &lt;dbl&gt;, `0302` &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb3-13" title="13"><span class="co">#&gt; #   `0501` &lt;dbl&gt;, `0504` &lt;dbl&gt;, `0508` &lt;dbl&gt;, `0509` &lt;dbl&gt;, `0510` &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb3-14" title="14"><span class="co">#&gt; #   `0517` &lt;dbl&gt;, `0518` &lt;dbl&gt;, `0536` &lt;dbl&gt;</span></a></code></pre></div>
+</div>
+<div id="transformar-estructura-de-datos-anchos-wide-a-largos-long-con-make_long" class="section level4">
+<h4>Transformar estructura de datos anchos (<em>wide</em>) a largos (<em>long</em>) con <code>make_long()</code></h4>
+<p>Por defecto los datos se descargan en formato <em>long</em>. Pero si hubieramos descargado resultados en formato <em>wide</em> como en el ejemplo anterior, existe la posibilidad de transformarlos y cambiar a <em>long</em> usando la función auxiliar <code>make_long()</code>.</p>
+<p>Este sería el caso haciendo una llamada similar a la del ejemplo anterior pero ahora a nivel <code>departamento</code>y guardandola en un objeto con nombre <code>data</code>:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">  </a>
+<a class="sourceLine" id="cb4-2" title="2">data &lt;-<span class="st"> </span><span class="kw">get_election_data</span>(<span class="dt">district =</span> <span class="st">&quot;caba&quot;</span>, </a>
+<a class="sourceLine" id="cb4-3" title="3">                          <span class="dt">category =</span> <span class="st">&quot;dip&quot;</span>,</a>
+<a class="sourceLine" id="cb4-4" title="4">                          <span class="dt">round =</span> <span class="st">&quot;paso&quot;</span>, </a>
+<a class="sourceLine" id="cb4-5" title="5">                          <span class="dt">year =</span> <span class="dv">2011</span>, </a>
+<a class="sourceLine" id="cb4-6" title="6">                          <span class="dt">level =</span> <span class="st">&quot;departamento&quot;</span>, <span class="dt">long =</span> <span class="ot">FALSE</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb4-7" title="7"><span class="st">  </span><span class="kw">print</span>()</a>
+<a class="sourceLine" id="cb4-8" title="8"><span class="co">#&gt; # A tibble: 15 x 22</span></a>
+<a class="sourceLine" id="cb4-9" title="9"><span class="co">#&gt; # Groups:   codprov, depto, coddepto [15]</span></a>
+<a class="sourceLine" id="cb4-10" title="10"><span class="co">#&gt;    category round  year codprov name_prov depto coddepto electores blancos</span></a>
+<a class="sourceLine" id="cb4-11" title="11"><span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;        &lt;dbl&gt;   &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb4-12" title="12"><span class="co">#&gt;  1 dip      paso   2011 01      CABA      Comu~ 001         185778    2403</span></a>
+<a class="sourceLine" id="cb4-13" title="13"><span class="co">#&gt;  2 dip      paso   2011 01      CABA      Comu~ 002         149091    1514</span></a>
+<a class="sourceLine" id="cb4-14" title="14"><span class="co">#&gt;  3 dip      paso   2011 01      CABA      Comu~ 003         167025    2538</span></a>
+<a class="sourceLine" id="cb4-15" title="15"><span class="co">#&gt;  4 dip      paso   2011 01      CABA      Comu~ 004         175190    2897</span></a>
+<a class="sourceLine" id="cb4-16" title="16"><span class="co">#&gt;  5 dip      paso   2011 01      CABA      Comu~ 005         152903    1944</span></a>
+<a class="sourceLine" id="cb4-17" title="17"><span class="co">#&gt;  6 dip      paso   2011 01      CABA      Comu~ 006         153077    1981</span></a>
+<a class="sourceLine" id="cb4-18" title="18"><span class="co">#&gt;  7 dip      paso   2011 01      CABA      Comu~ 007         169698    2522</span></a>
+<a class="sourceLine" id="cb4-19" title="19"><span class="co">#&gt;  8 dip      paso   2011 01      CABA      Comu~ 008         133174    2297</span></a>
+<a class="sourceLine" id="cb4-20" title="20"><span class="co">#&gt;  9 dip      paso   2011 01      CABA      Comu~ 009         144877    2521</span></a>
+<a class="sourceLine" id="cb4-21" title="21"><span class="co">#&gt; 10 dip      paso   2011 01      CABA      Comu~ 010         145632    2722</span></a>
+<a class="sourceLine" id="cb4-22" title="22"><span class="co">#&gt; 11 dip      paso   2011 01      CABA      Comu~ 011         166687    2500</span></a>
+<a class="sourceLine" id="cb4-23" title="23"><span class="co">#&gt; 12 dip      paso   2011 01      CABA      Comu~ 012         172984    2461</span></a>
+<a class="sourceLine" id="cb4-24" title="24"><span class="co">#&gt; 13 dip      paso   2011 01      CABA      Comu~ 013         208929    2366</span></a>
+<a class="sourceLine" id="cb4-25" title="25"><span class="co">#&gt; 14 dip      paso   2011 01      CABA      Comu~ 014         204174    2474</span></a>
+<a class="sourceLine" id="cb4-26" title="26"><span class="co">#&gt; 15 dip      paso   2011 01      CABA      Comu~ 015         161947    2338</span></a>
+<a class="sourceLine" id="cb4-27" title="27"><span class="co">#&gt; # ... with 13 more variables: nulos &lt;dbl&gt;, `0023` &lt;dbl&gt;, `0036` &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb4-28" title="28"><span class="co">#&gt; #   `0179` &lt;dbl&gt;, `0302` &lt;dbl&gt;, `0501` &lt;dbl&gt;, `0504` &lt;dbl&gt;, `0508` &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb4-29" title="29"><span class="co">#&gt; #   `0509` &lt;dbl&gt;, `0510` &lt;dbl&gt;, `0517` &lt;dbl&gt;, `0518` &lt;dbl&gt;, `0536` &lt;dbl&gt;</span></a></code></pre></div>
+<p>Usamos la función auxiliar para convertir el formato de <code>data</code>:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">  </a>
+<a class="sourceLine" id="cb5-2" title="2">data <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb5-3" title="3"><span class="st">  </span><span class="kw">make_long</span>() </a>
+<a class="sourceLine" id="cb5-4" title="4"><span class="co">#&gt; # A tibble: 210 x 10</span></a>
+<a class="sourceLine" id="cb5-5" title="5"><span class="co">#&gt; # Groups:   codprov, depto, coddepto [15]</span></a>
+<a class="sourceLine" id="cb5-6" title="6"><span class="co">#&gt;    category round  year codprov name_prov depto coddepto electores listas</span></a>
+<a class="sourceLine" id="cb5-7" title="7"><span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;        &lt;dbl&gt; &lt;chr&gt; </span></a>
+<a class="sourceLine" id="cb5-8" title="8"><span class="co">#&gt;  1 dip      paso   2011 01      CABA      Comu~ 001         185778 0023  </span></a>
+<a class="sourceLine" id="cb5-9" title="9"><span class="co">#&gt;  2 dip      paso   2011 01      CABA      Comu~ 001         185778 0036  </span></a>
+<a class="sourceLine" id="cb5-10" title="10"><span class="co">#&gt;  3 dip      paso   2011 01      CABA      Comu~ 001         185778 0179  </span></a>
+<a class="sourceLine" id="cb5-11" title="11"><span class="co">#&gt;  4 dip      paso   2011 01      CABA      Comu~ 001         185778 0302  </span></a>
+<a class="sourceLine" id="cb5-12" title="12"><span class="co">#&gt;  5 dip      paso   2011 01      CABA      Comu~ 001         185778 0501  </span></a>
+<a class="sourceLine" id="cb5-13" title="13"><span class="co">#&gt;  6 dip      paso   2011 01      CABA      Comu~ 001         185778 0504  </span></a>
+<a class="sourceLine" id="cb5-14" title="14"><span class="co">#&gt;  7 dip      paso   2011 01      CABA      Comu~ 001         185778 0508  </span></a>
+<a class="sourceLine" id="cb5-15" title="15"><span class="co">#&gt;  8 dip      paso   2011 01      CABA      Comu~ 001         185778 0509  </span></a>
+<a class="sourceLine" id="cb5-16" title="16"><span class="co">#&gt;  9 dip      paso   2011 01      CABA      Comu~ 001         185778 0510  </span></a>
+<a class="sourceLine" id="cb5-17" title="17"><span class="co">#&gt; 10 dip      paso   2011 01      CABA      Comu~ 001         185778 0517  </span></a>
+<a class="sourceLine" id="cb5-18" title="18"><span class="co">#&gt; # ... with 200 more rows, and 1 more variable: votos &lt;dbl&gt;</span></a></code></pre></div>
+</div>
+<div id="obtener-nombres-de-listas-o-partidos-políticos-con-get_names" class="section level4">
+<h4>Obtener nombres de listas o partidos políticos con <code>get_names()</code></h4>
+<p>Siguiendo el ejemplo anterior, una vez que <code>data</code> cambió a formato <em>long</em> se puede incorporar facilmente el nombre de los partios correspondientes al <em>id</em> de la columna <code>listas</code> con <code>get_names()</code>:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">  </a>
+<a class="sourceLine" id="cb6-2" title="2"></a>
+<a class="sourceLine" id="cb6-3" title="3">data <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb6-4" title="4"><span class="st">  </span>make_long <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb6-5" title="5"><span class="st">  </span><span class="kw">get_names</span>() </a>
+<a class="sourceLine" id="cb6-6" title="6"><span class="co">#&gt; # A tibble: 210 x 11</span></a>
+<a class="sourceLine" id="cb6-7" title="7"><span class="co">#&gt; # Groups:   codprov, depto, coddepto [15]</span></a>
+<a class="sourceLine" id="cb6-8" title="8"><span class="co">#&gt;    category round  year codprov name_prov depto coddepto electores listas</span></a>
+<a class="sourceLine" id="cb6-9" title="9"><span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;        &lt;dbl&gt; &lt;chr&gt; </span></a>
+<a class="sourceLine" id="cb6-10" title="10"><span class="co">#&gt;  1 dip      paso   2011 01      CABA      Comu~ 001         185778 0023  </span></a>
+<a class="sourceLine" id="cb6-11" title="11"><span class="co">#&gt;  2 dip      paso   2011 01      CABA      Comu~ 001         185778 0036  </span></a>
+<a class="sourceLine" id="cb6-12" title="12"><span class="co">#&gt;  3 dip      paso   2011 01      CABA      Comu~ 001         185778 0179  </span></a>
+<a class="sourceLine" id="cb6-13" title="13"><span class="co">#&gt;  4 dip      paso   2011 01      CABA      Comu~ 001         185778 0302  </span></a>
+<a class="sourceLine" id="cb6-14" title="14"><span class="co">#&gt;  5 dip      paso   2011 01      CABA      Comu~ 001         185778 0501  </span></a>
+<a class="sourceLine" id="cb6-15" title="15"><span class="co">#&gt;  6 dip      paso   2011 01      CABA      Comu~ 001         185778 0504  </span></a>
+<a class="sourceLine" id="cb6-16" title="16"><span class="co">#&gt;  7 dip      paso   2011 01      CABA      Comu~ 001         185778 0508  </span></a>
+<a class="sourceLine" id="cb6-17" title="17"><span class="co">#&gt;  8 dip      paso   2011 01      CABA      Comu~ 001         185778 0509  </span></a>
+<a class="sourceLine" id="cb6-18" title="18"><span class="co">#&gt;  9 dip      paso   2011 01      CABA      Comu~ 001         185778 0510  </span></a>
+<a class="sourceLine" id="cb6-19" title="19"><span class="co">#&gt; 10 dip      paso   2011 01      CABA      Comu~ 001         185778 0517  </span></a>
+<a class="sourceLine" id="cb6-20" title="20"><span class="co">#&gt; # ... with 200 more rows, and 2 more variables: votos &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb6-21" title="21"><span class="co">#&gt; #   nombre_lista &lt;chr&gt;</span></a></code></pre></div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
