@@ -2,7 +2,7 @@
 % Please edit documentation in R/compute_competitiveness.R
 \name{compute_competitiveness}
 \alias{compute_competitiveness}
-\title{Competitividad  (\emph{Competitiveness})}
+\title{Calcula Competitividad  (\emph{Computes Competitiveness})}
 \usage{
 compute_competitiveness(data, level = "provincia")
 }
@@ -47,5 +47,5 @@ El formato de \code{data} debe ser \code{long} para calcular \code{\link{compute
      
 }
 \seealso{
-\code{\link{compute_nep}}
+\code{\link{compute_nep}, \link{compute_seats}, \link{compute_disproportion}}
 }

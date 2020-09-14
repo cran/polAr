@@ -5,8 +5,15 @@
 \title{Descarga bases de resultados electorales 
  (\emph{Download electoral data})}
 \usage{
-get_election_data(district = NULL, category = NULL, round = NULL,
-  year = NULL, level = "provincia", long = TRUE, raw = FALSE)
+get_election_data(
+  district = NULL,
+  category = NULL,
+  round = NULL,
+  year = NULL,
+  level = "provincia",
+  long = TRUE,
+  raw = FALSE
+)
 }
 \arguments{
 \item{district}{un character con código para Argentina y las 24 provincias
@@ -46,5 +53,7 @@ Función que descarga resultados electorales nacionales desde 2007
                    level = "provincia", 
                    long = TRUE, raw = FALSE)                    
  
- 
+}
+\seealso{
+\code{\link{get_multiple_elections}}
 }

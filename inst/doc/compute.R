@@ -1,13 +1,16 @@
-## ---- include = FALSE----------------------------------------------------
+## ---- include = FALSE---------------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
 
-## ----setup---------------------------------------------------------------
+ options(rmarkdown.html_vignette.check_title = FALSE)
+ 
+
+## ----setup--------------------------------------------------------------------
 library(polAr)
 
-## ----echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE----------
+## ----echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE---------------
   
  polAr::get_election_data(district = "tucuman", 
                    category = "dip", 
@@ -20,7 +23,7 @@ library(polAr)
    
 
 
-## ----echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE----------
+## ----echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE---------------
   
  polAr::get_election_data(district = "tucuman", 
                    category = "dip", 
@@ -34,7 +37,7 @@ library(polAr)
    
 
 
-## ----echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE----------
+## ----echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE---------------
 
  data <- polAr::get_election_data(district = "tucuman", 
                    category = "dip", 
@@ -44,6 +47,15 @@ library(polAr)
                    
    compute_competitiveness(data = data, level = "departamento") 
    
+
+
+
+## ----seats--------------------------------------------------------------------
+caba_dip_2013 <- get_election_data(district = "caba", category = "dip", round = "gral", 2013)
+
+caba_dip_2013 %>% get_names()
+
+compute_seats(caba_dip_2013)
 
 
 

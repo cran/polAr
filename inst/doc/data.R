@@ -1,13 +1,16 @@
-## ---- include = FALSE----------------------------------------------------
+## ---- include = FALSE---------------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
 
-## ----setup---------------------------------------------------------------
+ options(rmarkdown.html_vignette.check_title = FALSE)
+
+
+## ----setup--------------------------------------------------------------------
 library(polAr)
 
-## ----echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE----------
+## ----echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE---------------
   
 library(polAr)
 
@@ -15,7 +18,7 @@ show_available_elections()
    
 
 
-## ----echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE----------
+## ----echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE---------------
   
 get_election_data(district = "caba", 
                   category = "dip",
@@ -24,7 +27,7 @@ get_election_data(district = "caba",
                   long = FALSE)
 
 
-## ----echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE----------
+## ----echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE---------------
   
 data <- get_election_data(district = "caba", 
                           category = "dip",
@@ -35,13 +38,13 @@ data <- get_election_data(district = "caba",
    
 
 
-## ----echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE----------
+## ----echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE---------------
   
 data %>% 
   make_long() 
 
 
-## ----echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE----------
+## ----echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE---------------
   
 
 data %>% 

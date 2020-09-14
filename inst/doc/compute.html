@@ -8,19 +8,35 @@
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 
 
-<title>Indicadores</title>
+<title>Cálculos (Computing)</title>
 
+<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
+// v0.0.1
+// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
+
+document.addEventListener('DOMContentLoaded', function() {
+  const codeList = document.getElementsByClassName("sourceCode");
+  for (var i = 0; i < codeList.length; i++) {
+    var linkList = codeList[i].getElementsByTagName('a');
+    for (var j = 0; j < linkList.length; j++) {
+      if (linkList[j].innerHTML === "") {
+        linkList[j].setAttribute('aria-hidden', 'true');
+      }
+    }
+  }
+});
+</script>
 
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
@@ -30,14 +46,16 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -46,9 +64,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -115,9 +133,6 @@ padding-right: 2em;
 font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 font-size: 14px;
 line-height: 1.35;
-}
-#header {
-text-align: center;
 }
 #TOC {
 clear: both;
@@ -286,7 +301,8 @@ code > span.st { color: #d14; }
 code > span.co { color: #888888; font-style: italic; } 
 code > span.ot { color: #007020; } 
 code > span.al { color: #ff0000; font-weight: bold; } 
-code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
 </style>
 
 
@@ -299,76 +315,120 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 
 
 
-<h1 class="title toc-ignore">Indicadores</h1>
+<h1 class="title toc-ignore">Cálculos (Computing)</h1>
 
 
 
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(polAr)</a></code></pre></div>
-<div id="computar-número-efectivo-de-partidos" class="section level4">
-<h4>Computar Número Efectivo de Partidos</h4>
-<p>La libería incluye funciones para computar indicadores relevantes. Así, por ejemplo, puede calcularse el <em>Número Efectivo de Partidos Políticos</em>.</p>
-<p>El cálculo se realizará el nivel de agregación de los datos descargados con <code>get_election_data()</code>. En este caso a nivel departamental. La función <code>compute_nep()</code> tiene un parámetro para elegir entre el índice de <a href="https://journals.sagepub.com/doi/10.1177/001041407901200101">Laakso-Taagepera</a> y/o el de <a href="https://journals.sagepub.com/doi/10.1177/1354068809339538">Golosov</a>.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">  </a>
-<a class="sourceLine" id="cb2-2" title="2"> polAr<span class="op">::</span><span class="kw">get_election_data</span>(<span class="dt">district =</span> <span class="st">&quot;tucuman&quot;</span>, </a>
-<a class="sourceLine" id="cb2-3" title="3">                   <span class="dt">category =</span> <span class="st">&quot;dip&quot;</span>, </a>
-<a class="sourceLine" id="cb2-4" title="4">                   <span class="dt">round =</span> <span class="st">&quot;gral&quot;</span>, </a>
-<a class="sourceLine" id="cb2-5" title="5">                   <span class="dt">year =</span> <span class="dv">2007</span>) -&gt;<span class="st"> </span>diputados_tucuman2007G</a>
-<a class="sourceLine" id="cb2-6" title="6"> </a>
-<a class="sourceLine" id="cb2-7" title="7"> </a>
-<a class="sourceLine" id="cb2-8" title="8"> </a>
-<a class="sourceLine" id="cb2-9" title="9">   polAr<span class="op">::</span><span class="kw">compute_nep</span>(<span class="dt">data =</span> diputados_tucuman2007G , <span class="dt">index =</span> <span class="st">&quot;All&quot;</span>)</a>
-<a class="sourceLine" id="cb2-10" title="10"><span class="co">#&gt; # A tibble: 2 x 3</span></a>
-<a class="sourceLine" id="cb2-11" title="11"><span class="co">#&gt;   codprov value index           </span></a>
-<a class="sourceLine" id="cb2-12" title="12"><span class="co">#&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;           </span></a>
-<a class="sourceLine" id="cb2-13" title="13"><span class="co">#&gt; 1 23       1.94 Golosov         </span></a>
-<a class="sourceLine" id="cb2-14" title="14"><span class="co">#&gt; 2 23       2.55 Laakso-Taagepera</span></a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(polAr)</span></code></pre></div>
+<div id="cálculos-computation" class="section level3">
+<h3>CÁLCULOS (<em>Computation</em>)</h3>
+<ul>
+<li><p><strong><code>compute_competitiveness()</code></strong>: Calcula el nivel de competencia en una elección. Un parámetro <code>level</code> permite calcularlo para los distintos niveles de agregación presentes en la <code>data</code> (<em>Computes the level of competition in an election. A parameter <code>level</code> allows to calculate it for the different levels of aggregation present in the<code>data</code></em>).</p></li>
+<li><p><strong><code>compute_nep()</code></strong>: Calcula el <em>Numero Efectivo de Partidos Politicos</em>. Es sensible al nivel de agregación de la <code>data</code> obtenida (<em>Computes the ‘Effective Number of Political Parties’. It is sensitive to the level of aggregation of the obtained <code>data</code></em>).</p></li>
+<li><p><strong><code>compute_seats()</code></strong>: Calcula el número esperado de escaños que debería recibir cada partido en función de los votos obtenidos (<em>Computes expected parties legislatives seats</em>).</p></li>
+<li><p><strong><code>compute_disproportion()</code></strong>: Calcula el grado de desprorpoción entre porcentaje de bancas y votos de elecciones legislativas (<em>Computes legislative election disproportion</em>).</p></li>
+<li><p><strong><code>compute_concentration()</code></strong>: Calcula el grado de concentración de votos en una elección (<em>Computes electoral concentration</em>).</p></li>
+</ul>
+<hr />
 </div>
-<div id="competitividad" class="section level4">
-<h4>Competitividad</h4>
-<p>Otro indicador de interes puede ser computado con <code>compute_competitiveness()</code>. Este representa el grado de comeptencia de una eleccion en un distrito determinado a partir de la diferencia porcentual de votos obtenidos por los dos partidos más votados. Puede tomar valores entre <span class="math inline">\([0,1]\)</span> donde <span class="math inline">\(1\)</span> es lo más comeptitivo (<span class="math inline">\(a=50\%\)</span> y <span class="math inline">\(b=50\%\)</span> de los votos) y <span class="math inline">\(0\)</span> lo opuesto.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">  </a>
-<a class="sourceLine" id="cb3-2" title="2"> polAr<span class="op">::</span><span class="kw">get_election_data</span>(<span class="dt">district =</span> <span class="st">&quot;tucuman&quot;</span>, </a>
-<a class="sourceLine" id="cb3-3" title="3">                   <span class="dt">category =</span> <span class="st">&quot;dip&quot;</span>, </a>
-<a class="sourceLine" id="cb3-4" title="4">                   <span class="dt">round =</span> <span class="st">&quot;gral&quot;</span>, </a>
-<a class="sourceLine" id="cb3-5" title="5">                   <span class="dt">year =</span> <span class="dv">2007</span>, </a>
-<a class="sourceLine" id="cb3-6" title="6">                   <span class="dt">level =</span> <span class="st">&quot;departamento&quot;</span>) -&gt;<span class="st"> </span>diputados_tucuman_<span class="dv">2007</span>_general_depto</a>
-<a class="sourceLine" id="cb3-7" title="7"> </a>
-<a class="sourceLine" id="cb3-8" title="8"> </a>
-<a class="sourceLine" id="cb3-9" title="9"> </a>
-<a class="sourceLine" id="cb3-10" title="10">   polAr<span class="op">::</span><span class="kw">compute_competitiveness</span>(<span class="dt">data =</span> diputados_tucuman_<span class="dv">2007</span>_general_depto)</a>
-<a class="sourceLine" id="cb3-11" title="11"><span class="co">#&gt; # A tibble: 1 x 2</span></a>
-<a class="sourceLine" id="cb3-12" title="12"><span class="co">#&gt;   codprov competitividad</span></a>
-<a class="sourceLine" id="cb3-13" title="13"><span class="co">#&gt;   &lt;chr&gt;            &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb3-14" title="14"><span class="co">#&gt; 1 23               0.550</span></a></code></pre></div>
-<p>Dado que <code>data</code> había sido descragada con <code>level = &quot;departamento&quot;</code>, podemos seleccionar ese nivel como parámetro adicional y estimar el indicador a nivel local.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"></a>
-<a class="sourceLine" id="cb4-2" title="2"> data &lt;-<span class="st"> </span>polAr<span class="op">::</span><span class="kw">get_election_data</span>(<span class="dt">district =</span> <span class="st">&quot;tucuman&quot;</span>, </a>
-<a class="sourceLine" id="cb4-3" title="3">                   <span class="dt">category =</span> <span class="st">&quot;dip&quot;</span>, </a>
-<a class="sourceLine" id="cb4-4" title="4">                   <span class="dt">round =</span> <span class="st">&quot;gral&quot;</span>, </a>
-<a class="sourceLine" id="cb4-5" title="5">                   <span class="dt">year =</span> <span class="dv">2007</span>, </a>
-<a class="sourceLine" id="cb4-6" title="6">                   <span class="dt">level =</span> <span class="st">&quot;departamento&quot;</span>, <span class="dt">long =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb4-7" title="7">                   </a>
-<a class="sourceLine" id="cb4-8" title="8">   <span class="kw">compute_competitiveness</span>(<span class="dt">data =</span> data, <span class="dt">level =</span> <span class="st">&quot;departamento&quot;</span>) </a>
-<a class="sourceLine" id="cb4-9" title="9"><span class="co">#&gt; # A tibble: 17 x 4</span></a>
-<a class="sourceLine" id="cb4-10" title="10"><span class="co">#&gt;    codprov depto          coddepto competitividad</span></a>
-<a class="sourceLine" id="cb4-11" title="11"><span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;          &lt;chr&gt;             &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb4-12" title="12"><span class="co">#&gt;  1 23      Alberdi        007               0.601</span></a>
-<a class="sourceLine" id="cb4-13" title="13"><span class="co">#&gt;  2 23      Burruyacu      013               0.253</span></a>
-<a class="sourceLine" id="cb4-14" title="14"><span class="co">#&gt;  3 23      Capital        001               0.676</span></a>
-<a class="sourceLine" id="cb4-15" title="15"><span class="co">#&gt;  4 23      Chicligasta    005               0.618</span></a>
-<a class="sourceLine" id="cb4-16" title="16"><span class="co">#&gt;  5 23      Cruz Alta      012               0.370</span></a>
-<a class="sourceLine" id="cb4-17" title="17"><span class="co">#&gt;  6 23      Famaillá       003               0.477</span></a>
-<a class="sourceLine" id="cb4-18" title="18"><span class="co">#&gt;  7 23      Graneros       009               0.358</span></a>
-<a class="sourceLine" id="cb4-19" title="19"><span class="co">#&gt;  8 23      La Cocha       008               0.510</span></a>
-<a class="sourceLine" id="cb4-20" title="20"><span class="co">#&gt;  9 23      Leales         011               0.372</span></a>
-<a class="sourceLine" id="cb4-21" title="21"><span class="co">#&gt; 10 23      Lules          002               0.452</span></a>
-<a class="sourceLine" id="cb4-22" title="22"><span class="co">#&gt; 11 23      Monteros       004               0.480</span></a>
-<a class="sourceLine" id="cb4-23" title="23"><span class="co">#&gt; 12 23      Río Chico      006               0.447</span></a>
-<a class="sourceLine" id="cb4-24" title="24"><span class="co">#&gt; 13 23      Simoca         010               0.545</span></a>
-<a class="sourceLine" id="cb4-25" title="25"><span class="co">#&gt; 14 23      Tafí Viejo     016               0.491</span></a>
-<a class="sourceLine" id="cb4-26" title="26"><span class="co">#&gt; 15 23      Tafí del Valle 017               0.383</span></a>
-<a class="sourceLine" id="cb4-27" title="27"><span class="co">#&gt; 16 23      Trancas        014               0.216</span></a>
-<a class="sourceLine" id="cb4-28" title="28"><span class="co">#&gt; 17 23      Yerba Buena    015               0.746</span></a></code></pre></div>
+<div id="ejemplos-examples" class="section level3">
+<h3>Ejemplos (<em>Examples</em>)</h3>
+<div id="computar-número-efectivo-de-partidos-computes-effective-number-of-parites" class="section level4">
+<h4>Computar Número Efectivo de Partidos (<em>Computes Effective Number of Parites</em>)</h4>
+<p>El cálculo se realizará el nivel de agregación de los datos descargados con <code>get_election_data()</code>. En este caso a nivel departamental. La función <code>compute_nep()</code> tiene un parámetro para elegir entre el índice de <a href="https://journals.sagepub.com/doi/10.1177/001041407901200101">Laakso-Taagepera</a> y/o el de <a href="https://journals.sagepub.com/doi/10.1177/1354068809339538">Golosov</a></p>
+<p>(<em>The calculation will be done at the aggregation level of the downloaded data with <code>get_election_data ()</code>. In this case at the departmental level. The <code>compute_nep()</code> function has a parameter to choose between Laakso-Taagepera and Golosov indexes</em>)</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>  </span>
+<span id="cb2-2"><a href="#cb2-2"></a> polAr<span class="op">::</span><span class="kw">get_election_data</span>(<span class="dt">district =</span> <span class="st">&quot;tucuman&quot;</span>, </span>
+<span id="cb2-3"><a href="#cb2-3"></a>                   <span class="dt">category =</span> <span class="st">&quot;dip&quot;</span>, </span>
+<span id="cb2-4"><a href="#cb2-4"></a>                   <span class="dt">round =</span> <span class="st">&quot;gral&quot;</span>, </span>
+<span id="cb2-5"><a href="#cb2-5"></a>                   <span class="dt">year =</span> <span class="dv">2007</span>) -&gt;<span class="st"> </span>diputados_tucuman2007G</span>
+<span id="cb2-6"><a href="#cb2-6"></a> </span>
+<span id="cb2-7"><a href="#cb2-7"></a> </span>
+<span id="cb2-8"><a href="#cb2-8"></a> </span>
+<span id="cb2-9"><a href="#cb2-9"></a>   polAr<span class="op">::</span><span class="kw">compute_nep</span>(<span class="dt">data =</span> diputados_tucuman2007G , <span class="dt">index =</span> <span class="st">&quot;All&quot;</span>)</span>
+<span id="cb2-10"><a href="#cb2-10"></a><span class="co">#&gt; # A tibble: 2 x 3</span></span>
+<span id="cb2-11"><a href="#cb2-11"></a><span class="co">#&gt;   codprov value index           </span></span>
+<span id="cb2-12"><a href="#cb2-12"></a><span class="co">#&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;           </span></span>
+<span id="cb2-13"><a href="#cb2-13"></a><span class="co">#&gt; 1 23       1.94 Golosov         </span></span>
+<span id="cb2-14"><a href="#cb2-14"></a><span class="co">#&gt; 2 23       2.55 Laakso-Taagepera</span></span></code></pre></div>
+</div>
+<div id="competitividad-competitiveness" class="section level4">
+<h4>Competitividad (<em>Competitiveness</em>)</h4>
+<p>Otro indicador de interes puede ser computado con <code>compute_competitiveness()</code>. Este representa el grado de comeptencia de una eleccion en un distrito determinado a partir de la diferencia porcentual de votos obtenidos por los dos partidos más votados. Puede tomar valores entre <span class="math inline">\([0,1]\)</span> donde <span class="math inline">\(1\)</span> es lo más comeptitivo (<span class="math inline">\(a=50\%\)</span> y <span class="math inline">\(b=50\%\)</span> de los votos) y <span class="math inline">\(0\)</span> lo opuesto</p>
+<p>(<em>Another usefull index is done with <code>compute_competitiveness()</code>. Its represents the degree of competence of an election in a given district based on the percentage difference in votes obtained by the two most voted parties. You can take values between <span class="math inline">\([0,1]\)</span> where <span class="math inline">\(1\)</span> is the most competitive - <span class="math inline">\(a = 50\%\)</span> and <span class="math inline">\(b = 50\%\)</span> of the votes- and <span class="math inline">\(0\)</span> the opposite</em>)</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>  </span>
+<span id="cb3-2"><a href="#cb3-2"></a> polAr<span class="op">::</span><span class="kw">get_election_data</span>(<span class="dt">district =</span> <span class="st">&quot;tucuman&quot;</span>, </span>
+<span id="cb3-3"><a href="#cb3-3"></a>                   <span class="dt">category =</span> <span class="st">&quot;dip&quot;</span>, </span>
+<span id="cb3-4"><a href="#cb3-4"></a>                   <span class="dt">round =</span> <span class="st">&quot;gral&quot;</span>, </span>
+<span id="cb3-5"><a href="#cb3-5"></a>                   <span class="dt">year =</span> <span class="dv">2007</span>, </span>
+<span id="cb3-6"><a href="#cb3-6"></a>                   <span class="dt">level =</span> <span class="st">&quot;departamento&quot;</span>) -&gt;<span class="st"> </span>diputados_tucuman_<span class="dv">2007</span>_general_depto</span>
+<span id="cb3-7"><a href="#cb3-7"></a> </span>
+<span id="cb3-8"><a href="#cb3-8"></a> </span>
+<span id="cb3-9"><a href="#cb3-9"></a> </span>
+<span id="cb3-10"><a href="#cb3-10"></a>   polAr<span class="op">::</span><span class="kw">compute_competitiveness</span>(<span class="dt">data =</span> diputados_tucuman_<span class="dv">2007</span>_general_depto)</span>
+<span id="cb3-11"><a href="#cb3-11"></a><span class="co">#&gt; # A tibble: 1 x 2</span></span>
+<span id="cb3-12"><a href="#cb3-12"></a><span class="co">#&gt;   codprov competitividad</span></span>
+<span id="cb3-13"><a href="#cb3-13"></a><span class="co">#&gt;   &lt;chr&gt;            &lt;dbl&gt;</span></span>
+<span id="cb3-14"><a href="#cb3-14"></a><span class="co">#&gt; 1 23               0.550</span></span></code></pre></div>
+<p>Dado que <code>data</code> había sido descargada con <code>level = &quot;departamento&quot;</code>, podemos seleccionar ese nivel como parámetro adicional y estimar el indicador a nivel local (<em>since <code>data</code> had been downloaded with <code>level = &quot;department&quot;</code> parameter, we can select that level as an additional parameter and estimate the indicator locally</em>):</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a></span>
+<span id="cb4-2"><a href="#cb4-2"></a> data &lt;-<span class="st"> </span>polAr<span class="op">::</span><span class="kw">get_election_data</span>(<span class="dt">district =</span> <span class="st">&quot;tucuman&quot;</span>, </span>
+<span id="cb4-3"><a href="#cb4-3"></a>                   <span class="dt">category =</span> <span class="st">&quot;dip&quot;</span>, </span>
+<span id="cb4-4"><a href="#cb4-4"></a>                   <span class="dt">round =</span> <span class="st">&quot;gral&quot;</span>, </span>
+<span id="cb4-5"><a href="#cb4-5"></a>                   <span class="dt">year =</span> <span class="dv">2007</span>, </span>
+<span id="cb4-6"><a href="#cb4-6"></a>                   <span class="dt">level =</span> <span class="st">&quot;departamento&quot;</span>, <span class="dt">long =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb4-7"><a href="#cb4-7"></a>                   </span>
+<span id="cb4-8"><a href="#cb4-8"></a>   <span class="kw">compute_competitiveness</span>(<span class="dt">data =</span> data, <span class="dt">level =</span> <span class="st">&quot;departamento&quot;</span>) </span>
+<span id="cb4-9"><a href="#cb4-9"></a><span class="co">#&gt; # A tibble: 17 x 4</span></span>
+<span id="cb4-10"><a href="#cb4-10"></a><span class="co">#&gt;    codprov depto          coddepto competitividad</span></span>
+<span id="cb4-11"><a href="#cb4-11"></a><span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;          &lt;chr&gt;             &lt;dbl&gt;</span></span>
+<span id="cb4-12"><a href="#cb4-12"></a><span class="co">#&gt;  1 23      Alberdi        007               0.601</span></span>
+<span id="cb4-13"><a href="#cb4-13"></a><span class="co">#&gt;  2 23      Burruyacu      013               0.253</span></span>
+<span id="cb4-14"><a href="#cb4-14"></a><span class="co">#&gt;  3 23      Capital        001               0.676</span></span>
+<span id="cb4-15"><a href="#cb4-15"></a><span class="co">#&gt;  4 23      Chicligasta    005               0.618</span></span>
+<span id="cb4-16"><a href="#cb4-16"></a><span class="co">#&gt;  5 23      Cruz Alta      012               0.370</span></span>
+<span id="cb4-17"><a href="#cb4-17"></a><span class="co">#&gt;  6 23      Famaillá       003               0.477</span></span>
+<span id="cb4-18"><a href="#cb4-18"></a><span class="co">#&gt;  7 23      Graneros       009               0.358</span></span>
+<span id="cb4-19"><a href="#cb4-19"></a><span class="co">#&gt;  8 23      La Cocha       008               0.510</span></span>
+<span id="cb4-20"><a href="#cb4-20"></a><span class="co">#&gt;  9 23      Leales         011               0.372</span></span>
+<span id="cb4-21"><a href="#cb4-21"></a><span class="co">#&gt; 10 23      Lules          002               0.452</span></span>
+<span id="cb4-22"><a href="#cb4-22"></a><span class="co">#&gt; 11 23      Monteros       004               0.480</span></span>
+<span id="cb4-23"><a href="#cb4-23"></a><span class="co">#&gt; 12 23      Río Chico      006               0.447</span></span>
+<span id="cb4-24"><a href="#cb4-24"></a><span class="co">#&gt; 13 23      Simoca         010               0.545</span></span>
+<span id="cb4-25"><a href="#cb4-25"></a><span class="co">#&gt; 14 23      Tafí Viejo     016               0.491</span></span>
+<span id="cb4-26"><a href="#cb4-26"></a><span class="co">#&gt; 15 23      Tafí del Valle 017               0.383</span></span>
+<span id="cb4-27"><a href="#cb4-27"></a><span class="co">#&gt; 16 23      Trancas        014               0.216</span></span>
+<span id="cb4-28"><a href="#cb4-28"></a><span class="co">#&gt; 17 23      Yerba Buena    015               0.746</span></span></code></pre></div>
+</div>
+<div id="calcular-escaños-compute-seats" class="section level4">
+<h4>Calcular Escaños (<em>Compute Seats</em>)</h4>
+<p>Es posible calcular el número estimado de escaños que correspondería asignar a cada partido político en elecciones legislativas en función de los votos obentidos. Vale remarcar que esta distribución de Diputados y Senadores está reglada por disintas fórmulas y parámetros, pero estas fueron incorporadas a la función</p>
+<p>(<em>It is possible to compute the estimated number of seats that should be assigned to each political party in legislative elections based on the votes they got. It is worth noting that this distribution of Deputies and Senators is governed by different formulas and parameters, but these were incorporated into the function</em>);</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>caba_dip_<span class="dv">2013</span> &lt;-<span class="st"> </span><span class="kw">get_election_data</span>(<span class="dt">district =</span> <span class="st">&quot;caba&quot;</span>, <span class="dt">category =</span> <span class="st">&quot;dip&quot;</span>, <span class="dt">round =</span> <span class="st">&quot;gral&quot;</span>, <span class="dv">2013</span>)</span>
+<span id="cb5-2"><a href="#cb5-2"></a></span>
+<span id="cb5-3"><a href="#cb5-3"></a>caba_dip_<span class="dv">2013</span> <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">get_names</span>()</span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="co">#&gt; # A tibble: 8 x 9</span></span>
+<span id="cb5-5"><a href="#cb5-5"></a><span class="co">#&gt; # Groups:   codprov [1]</span></span>
+<span id="cb5-6"><a href="#cb5-6"></a><span class="co">#&gt;   category round  year codprov name_prov electores listas   votos nombre_lista  </span></span>
+<span id="cb5-7"><a href="#cb5-7"></a><span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;         &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;         </span></span>
+<span id="cb5-8"><a href="#cb5-8"></a><span class="co">#&gt; 1 dip      gral   2013 01      CABA        2542452 0187     68510 AUTODETERMINA~</span></span>
+<span id="cb5-9"><a href="#cb5-9"></a><span class="co">#&gt; 2 dip      gral   2013 01      CABA        2542452 0501    390631 FRENTE PARA L~</span></span>
+<span id="cb5-10"><a href="#cb5-10"></a><span class="co">#&gt; 3 dip      gral   2013 01      CABA        2542452 0502    583222 UNEN          </span></span>
+<span id="cb5-11"><a href="#cb5-11"></a><span class="co">#&gt; 4 dip      gral   2013 01      CABA        2542452 0503    623464 UNION PRO     </span></span>
+<span id="cb5-12"><a href="#cb5-12"></a><span class="co">#&gt; 5 dip      gral   2013 01      CABA        2542452 0505    102236 FRENTE DE IZQ~</span></span>
+<span id="cb5-13"><a href="#cb5-13"></a><span class="co">#&gt; 6 dip      gral   2013 01      CABA        2542452 0506     41352 CAMINO POPULAR</span></span>
+<span id="cb5-14"><a href="#cb5-14"></a><span class="co">#&gt; 7 dip      gral   2013 01      CABA        2542452 blancos 112405 blancos       </span></span>
+<span id="cb5-15"><a href="#cb5-15"></a><span class="co">#&gt; 8 dip      gral   2013 01      CABA        2542452 nulos    18341 nulos</span></span>
+<span id="cb5-16"><a href="#cb5-16"></a></span>
+<span id="cb5-17"><a href="#cb5-17"></a><span class="kw">compute_seats</span>(caba_dip_<span class="dv">2013</span>)</span>
+<span id="cb5-18"><a href="#cb5-18"></a><span class="co">#&gt; # A tibble: 3 x 8</span></span>
+<span id="cb5-19"><a href="#cb5-19"></a><span class="co">#&gt; # Groups:   year, category, round, codprov, name_prov, listas [3]</span></span>
+<span id="cb5-20"><a href="#cb5-20"></a><span class="co">#&gt;   codprov name_prov  year category round listas nombre_lista            seats</span></span>
+<span id="cb5-21"><a href="#cb5-21"></a><span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;                   &lt;int&gt;</span></span>
+<span id="cb5-22"><a href="#cb5-22"></a><span class="co">#&gt; 1 01      CABA       2013 dip      gral  0502   UNEN                        5</span></span>
+<span id="cb5-23"><a href="#cb5-23"></a><span class="co">#&gt; 2 01      CABA       2013 dip      gral  0503   UNION PRO                   5</span></span>
+<span id="cb5-24"><a href="#cb5-24"></a><span class="co">#&gt; 3 01      CABA       2013 dip      gral  0501   FRENTE PARA LA VICTORIA     3</span></span></code></pre></div>
+</div>
 </div>
 
 

@@ -36,5 +36,68 @@ if(getRversion() >= "2.15.1")  utils::globalVariables(c(".",
                                                         "electores", 
                                                         "LaTex", 
                                                         "listas_fct", 
-                                                        "NOMBRE"))
+                                                        "NOMBRE", 
+                                                        "coddepto", 
+                                                        "totales", 
+                                                        "dif", 
+                                                        "group",
+                                                        "coddept", 
+                                                        "PARTY", 
+                                                        "VOTES", 
+                                                        "DIVISOR", 
+                                                        "QUOTIENTS", 
+                                                        "ORDER", 
+                                                        "mesa", # Must fix data input SALTA Dip 
+                                                        "anio", 
+                                                        "president", 
+                                                        "Presidente",
+                                                        "id", 
+                                                        "n", 
+                                                        "word", 
+                                                        "election", 
+                                                        "seats_pct", 
+                                                        "votes_pct", 
+                                                        "index","full_geo_metadata", 
+                                                        "codprov", 
+                                                        "codprov_censo", 
+                                                        "codprov_iso", 
+                                                        "code", 
+                                                        "name_prov", 
+                                                        "name_iso", 
+                                                        "coddepto", 
+                                                        "coddepto_censo", 
+                                                        "nomdepto_censo", 
+                                                        "data",
+                                                        "grillas_geofacet", 
+                                                        "name_provincia",
+                                                        "camara", 
+                                                        "colour", 
+                                                        "fecha", 
+                                                        "party_long",
+                                                        "party_short", 
+                                                        "seats", 
+                                                        "value", 
+                                                        "x", 
+                                                        "y"))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
