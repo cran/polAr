@@ -1,4 +1,5 @@
-#' Diccionario de proyectos de ley sometidos a votación
+#' Diccionario de proyectos de ley sometidos a votación 
+#' (\emph{Bills collection})
 #'
 #'@description
 #' Función que devuelve un \emph{data.frame} listado de proyectos de ley con un id por proyecto y cámara legislativa
@@ -17,9 +18,22 @@
 
 
 
-show_available_bills <- function(viewer = TRUE) {
+show_available_bills <- function(viewer = FALSE) {
   
-  bills <- readr::read_csv("https://raw.githubusercontent.com/electorArg/PolAr_Data/master/scripts/raw_bills_data.csv", 
+  
+  url <-  "https://raw.githubusercontent.com/electorArg/PolAr_Data/master/scripts/raw_bills_data.csv"
+  
+  ## FAIL SAFELEY
+  
+  check <- httr::GET(url)
+  
+  httr::stop_for_status(x = check, 
+                        task = "Fail to download data. Source is not available // La fuente de datos no esta disponible")
+  
+  
+  
+  
+  bills <- readr::read_csv(url, 
                   col_types = readr::cols()) %>% 
     dplyr::mutate(id = as.character(glue::glue("{id}-{camara}")),
                   fecha = lubridate::as_date(fecha), 
